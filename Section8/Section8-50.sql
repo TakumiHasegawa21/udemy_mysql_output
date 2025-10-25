@@ -30,3 +30,18 @@ rollback
 start transaction;
 select * from customers where id=1 for update;
 rollback;
+
+-- LOCK TABLE READ (読み込み専用)
+lock table customers read;
+select * from customers;
+update customers set age=42 where id=1;
+unlock tables;
+
+-- LOCK TABLE WRITE (自分は書き込みも読み込みも可能だが他ユーザーは)
+lock table customers write;
+select * from customers;
+update customers set age=42 where id=1;
+
+-- DEAD LOCK
+start transaction;
+update customers set age=42 where id=1;
