@@ -68,4 +68,12 @@ case
 	else "不明"
 end as "元号"
 from users;
+
+-- NULLを使う場合
+select *,
+case
+	when name is null then "不明"
+	else ""
+	end as "null check"
+from customers where name is null;
 	
