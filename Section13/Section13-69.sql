@@ -65,3 +65,17 @@ on std.id = enr.student_id
 right join
 classes as cs
 on enr.class_id = cs.id;
+
+-- customers, orders, items, storesを紐づける(INNER JOIN)
+-- customers.idで並び替える
+select
+	ct.id, ct.last_name, od.order_amount, od.order_price, od.order_date, it.name, st.name
+from 
+	customers as ct
+inner join orders as od
+on ct.id = od.customers_id
+inner join items as it
+on od.item_id = it.id
+inner join stores as st
+on it.store_id = st.id
+order by ct.id;
