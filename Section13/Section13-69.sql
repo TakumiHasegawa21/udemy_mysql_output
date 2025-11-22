@@ -73,9 +73,20 @@ select
 from 
 	customers as ct
 inner join orders as od
-on ct.id = od.customers_id
+on ct.id = od.customer_id
 inner join items as it
 on od.item_id = it.id
 inner join stores as st
 on it.store_id = st.id
 order by ct.id;
+
+-- SELF JOIN (自己結合)
+select 
+	CONCAT(emp1.last_name, emp1.first_name) as "部下の名前",
+	CONCAT(emp2.last_name, emp2.first_name) as "上司の名前"
+	from employees as emp1
+inner join employees as emp2
+on emp1.manager_id = emp2.id;
+
+-- CROSS JOIN
+select * from employees as emp1　cross join employees as emp2;
