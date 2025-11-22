@@ -14,3 +14,10 @@ from employees;
 select *, AVG(age) OVER(partition by department_id) as avg_age,
 count(*)over(partition by department_id) as count_department
 from employees;
+
+-- ORDER BY
+select
+	*,
+	count(*) over(order by age) as tmp_count
+from
+	employees;
