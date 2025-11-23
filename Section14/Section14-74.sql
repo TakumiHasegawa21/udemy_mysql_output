@@ -32,3 +32,26 @@ select *, max(payment) over(partition by sa.paid_date order by emp.id)
 from employees as emp
 inner join salaries as sa
 on emp.id = sa.employee_id;
+
+-- salesテーブルのorder_price * order_amountの合計値の7日間の平均を求める
+-- まずは、日付ごとの合計値を求める
+-- 7日平均を求める
+select 
+	*,
+	sum(order_price * order_amount) over(order by order_date rows between 6 preceding and current row)
+from
+	orders;
+
+with daily_summary as(
+select
+	order_date, sum(order_price * order_amount) as sale
+from
+	orders
+group by
+	order_date
+)
+select
+	*,
+	avg(sale) over(order by order_date rows between 6 preceding and current row) -- 6日前から現在の行まで
+from
+	daily_summary;
