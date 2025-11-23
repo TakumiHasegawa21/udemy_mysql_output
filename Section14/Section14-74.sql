@@ -55,3 +55,28 @@ select
 	avg(sale) over(order by order_date rows between 6 preceding and current row) -- 6日前から現在の行まで
 from
 	daily_summary;
+
+-- ROW NUMBER, RANK, DENSE_RANK
+select
+*,
+row_number() over(order by age) as row_num,     -- 常に1,2,3...と連番（重複は無視）
+rank() over(order by age) as row_rank,          -- 同値は同順位、次の順位は飛ぶ
+dense_rank() over(order by age) as row_dense    -- 同値は同順位、次の順位は飛ばない
+from employees;
+
+-- SUME_DIST, PERCENT_RANK
+select
+age,
+rank() over(order by age) as row_rank, -- 行数
+percent_rank() over(order by age) as p_age, -- (RANK-1) / (行数-1)
+cume_dist() over(order by age) as c_age -- 現在の行の値より小さい行の割合
+from employees;
+
+-- LAG, READ
+select
+age,
+lag(age) over(order by age), -- 直前
+lag(age, 3, 0) over(order by age), -- 三つ前、ない場合は0
+lead(age) over(order by age), -- 直後
+lead(age, 2, 0) over(order by age) -- 二つ後、ない場合は0
+from employees;
