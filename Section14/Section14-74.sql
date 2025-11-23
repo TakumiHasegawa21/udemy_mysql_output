@@ -80,3 +80,16 @@ lag(age, 3, 0) over(order by age), -- 三つ前、ない場合は0
 lead(age) over(order by age), -- 直後
 lead(age, 2, 0) over(order by age) -- 二つ後、ない場合は0
 from employees;
+
+-- FIRST_VALUE, LAST_VALUE
+select
+*,
+first_value(first_name) over(partition by department_id order by age),
+last_value(first_name) over(partition by department_id order by age range between unbounded preceding and unbounded following)
+from employees;
+
+-- NTILE
+select
+age,
+ntile(2) over(order by age)
+from employees;
